@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "nanopore-sdl"
+version = "0.1.0"
+description = "纳米孔单通道 .abf 数据自动化分析管线：事件分割、特征提取、异常检测与可视化"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "numpy",
+    "scipy",
+    "pandas",
+    "matplotlib",
+    "openpyxl",
+    "pyabf",
+    "PyQt5",
+    "pyqtgraph",
+]
+
+[project.optional-dependencies]
+dev = ["pytest"]
+
+[project.scripts]
+nanopore = "nanopore.cli:main"
+
+[tool.setuptools]
+packages = ["nanopore", "nanopore.gui"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
