@@ -1,0 +1,13 @@
+# Normalize line endings in the repository to LF regardless of platform.
+# Windows development + Linux CI would otherwise produce noisy diffs.
+* text=auto eol=lf
+
+# Windows batch launchers must keep CRLF to run correctly.
+*.bat text eol=crlf
+
+# Binary formats: never touch.
+*.abf binary
+*.png binary
+*.jpg binary
+*.xlsx binary
+*.docx binary

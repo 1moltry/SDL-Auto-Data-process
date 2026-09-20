@@ -1,0 +1,28 @@
+# --- 实验数据：不入库，留在共享盘，见 data/README.md ---
+abf数据案例/
+*.abf
+
+# --- 第三方与参考资料：不入库 ---
+pCLAMP11.2/
+_tmp/
+
+# --- 生成物 ---
+output/
+_preview_*.png
+_gen_preview.py
+__pycache__/
+*.py[cod]
+.pytest_cache/
+build/
+dist/
+*.egg-info/
+
+# --- 非本项目产物（MATLAB 源码与 Word 文档）---
+*.m
+*.docx
+
+# --- 本机配置 ---
+.claude/settings.local.json
+
+# --- 早期遗留截图，待确认后删除 ---
+8a558a98ab8c5117f70bb8af1f98b646-1.png
