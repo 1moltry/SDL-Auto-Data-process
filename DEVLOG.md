@@ -22,6 +22,7 @@
 **G1.9 桌面快捷入口 完成**：双击桌面 `SDL纳米孔分析` 即开 GUI，无需命令行。见下方 [2026-09-13]。
 **G1.10 MATLAB 训练导出 + 散点图极值修复 完成**：批处理产出合并表 `dataset_all.csv`（MATLAB 合法列名）；散点图 toff 转对数横轴、ΔI 改线性轴并按正负分色（symlog 实测有害，已弃）。见下方 [2026-09-13]。
 **v3 规划已就绪**：全项目审查（正确性 / 健壮性 / 冗余 / 算法能力）与 MATLAB 接线硬阻塞已归纳为下方《v3 规划》章节，作为下一大版本的输入。见下方 [2026-09-13]。
+**工程化 完成**：纳入 git 版本控制并搭建 GitHub 协作流程（CI / 模板 / Dependabot / 打包）。见下方 [2026-09-20]。
 
 ---
 
@@ -88,6 +89,28 @@
 ### v3 建议推进顺序
 
 **C1**（特征正确性）→ **C2/C3**（GUI 真 bug）→ **R1**（内存）→ R3/R4/R5 → 冗余清理 → **A2/A3**（算法能力）。
+
+---
+
+## [2026-09-20] 工程化 — 纳入版本控制 + GitHub 协作流程
+
+**变更**
+- 仓库初始化：`git init -b main`，首次提交 65 文件 / 0.34 MB。`.gitignore` 排除实验数据（`abf数据案例/` 1.7 GB，单文件最大 143 MB，超 GitHub 100 MB 硬限制）、商业软件（`pCLAMP11.2/`）、参考文本（`_tmp/`）、生成物与本机配置。
+- 打包：新增 `pyproject.toml`（setuptools），声明依赖与 `requires-python = ">=3.11"`，console 入口 `nanopore`；pytest 配置自 `pytest.ini` 迁入并删除后者。
+- CI：`.github/workflows/ci.yml`——ubuntu/windows × py3.11/3.13 三 job，`QT_QPA_PLATFORM=offscreen` 无头跑 pytest；`.github/dependabot.yml` 周更依赖（合成单 PR）。
+- 协作：`CONTRIBUTING.md`（分支命名 / Conventional Commits / PR 检查清单）、PR 与 issue 模板、`data/README.md`（数据获取方式与目录约定）。
+- 规整：`.gitattributes`（跨平台换行符，`.bat` 保持 CRLF）、`.editorconfig`。
+
+**测试**
+- 本地 126 passed（有头与 offscreen 两种模式）；`pip install -e ".[dev]"` 通过，`python -m nanopore --version` 与 GUI 主窗口构造均正常。
+- GitHub Actions 三 job 全绿，其中 py3.11 验证了声明的最低版本准确。
+
+**已知限制**
+- Free 套餐的私有仓库不支持分支保护 / ruleset（API 返回 `403 Upgrade to GitHub Pro`），`main` 无服务端强制保护，流程靠 `CONTRIBUTING.md` 约定。
+
+**下一步**
+- 可选：升级 Pro 后启用 `main` 分支保护（要求三个 CI 检查通过 + 禁止强推），届时删掉 CONTRIBUTING 里的限制说明。
+- 恢复 v3 规划主线：**C1**（skew/kurt 有偏校正，影响已有数据可信度）→ C2/C3（GUI 真 bug）→ R1（内存）。
 
 ---
 
