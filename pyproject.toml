@@ -3,30 +3,23 @@ requires = ["setuptools>=68"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "nanopore-sdl"
+name = "nanopore-merged-lab"
 version = "0.1.0"
-description = "纳米孔单通道 .abf 数据自动化分析管线：事件分割、特征提取、异常检测与可视化"
-readme = "README.md"
+description = "Merged nanopore ABF analysis and interactive review suite"
 requires-python = ">=3.11"
-dependencies = [
-    "numpy",
-    "scipy",
-    "pandas",
-    "matplotlib",
-    "openpyxl",
-    "pyabf",
-    "PyQt5",
-    "pyqtgraph",
-]
+dependencies = ["numpy>=2.0", "pandas>=2.0", "scipy>=1.12", "matplotlib>=3.8", "openpyxl>=3.1", "xlrd>=2.0"]
 
 [project.optional-dependencies]
-dev = ["pytest"]
+review = ["pyabf>=2.3", "PyQt5>=5.15", "pyqtgraph>=0.13"]
+dev = ["pytest>=8.0"]
 
 [project.scripts]
-nanopore = "nanopore.cli:main"
+nanopore-prior = "nanopore_prior.cli:main"
+nanopore-review = "nanopore.cli:main"
 
 [tool.setuptools]
-packages = ["nanopore", "nanopore.gui"]
+packages = ["nanopore_prior", "nanopore", "nanopore.gui"]
+py-modules = ["merged_runner"]
 
 [tool.pytest.ini_options]
-testpaths = ["tests"]
+testpaths = ["tests", "tests_prior", "tests_merged"]
