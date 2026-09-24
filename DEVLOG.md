@@ -100,7 +100,7 @@
 - README 合并：以 v1 的完整文档为基底恢复，在开头并入统一入口（`启动纳米孔分析.bat`；「开始主分析」/「打开交互复核界面」双界面）与批处理产物说明。
 - 仓库地址固化：README 顶部、`pyproject.toml` `[project.urls]`、本文件 `CLAUDE.md`。
 - GitHub Release `v1` / `v2` 建立。
-- 协作流程：`CONTRIBUTING.md` 新增「协作方式（协作者必读）」（fork + PR 步骤）与「版本号与发布」（版本号由维护者统一分配，协作者不自行打 tag）；协作者权限由 push 收回为 **read**，从机制上禁止直推 `main`（Free 私有仓库无法用 ruleset，改用权限控制）。
+- 协作流程：`CONTRIBUTING.md` 新增「协作方式（贡献者必读）」（fork + PR 步骤）与「版本号与发布」（版本号由维护者统一分配，贡献者不自行打 tag）。Free 套餐下 ruleset / 分支保护不可用，且实测无法把协作者降为只读（API 对 `read`/`triage` 返回 422），故改为**仓库公开 + 移除协作者写权限**：贡献者只能 fork + PR，从机制上禁止直推 `main`。已在 Issue #3 通知同事。
 
 **测试**
 - 仅动文档与打包元数据，未改 `nanopore/` 算法代码。
