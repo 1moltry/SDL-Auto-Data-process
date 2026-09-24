@@ -1,6 +1,30 @@
 # 贡献指南
 
-本仓库为课题组内部私有仓库。以下流程对所有人（包括主要开发者）生效。
+本仓库为课题组内部私有仓库。**`main` 不接受任何直接推送**——所有改动一律经分支 + Pull Request，由维护者审查后合并。以下流程对所有人生效；协作者请先读「协作方式」。
+
+## 协作方式（协作者必读）
+
+协作者账号对本仓库是**只读（read）权限**，无法直接推送分支或改动 `main`。请按 fork 流程贡献：
+
+1. **Fork** 本仓库到你自己的账号（私有 fork，只有你能看到）。
+2. 在 fork 上建分支、提交：
+
+   ```bash
+   git clone https://github.com/<你的用户名>/Self-Driving-Huang-Lab.git
+   cd Self-Driving-Huang-Lab
+   git remote add upstream https://github.com/1moltry/Self-Driving-Huang-Lab.git
+   git checkout -b feat/xxx
+   # ... 改动 ...
+   git push origin feat/xxx
+   ```
+
+3. 向本仓库的 `main` 开 **Pull Request**（PR 模板会自动带出检查清单）。
+4. 维护者审查；若需修改，你 push 到同一分支，PR 会自动更新。
+5. 维护者合并（squash）后，源分支删除。
+
+> 在 fork 上工作期间若 `main` 已前进，用 `git fetch upstream && git rebase upstream/main` 同步后再 push 回自己的分支。
+
+> 直接把文件传到网页（GitHub 的 "Add files via upload"）会绕过分支与 PR，也不会经过 CI——请不要这样做，改动请走上面的流程。
 
 ## 环境准备
 
@@ -14,7 +38,7 @@ pip install -e ".[dev]"
 
 ## 分支
 
-`main` 受保护，禁止直接推送。每个改动开一条短生命周期分支，用完即删：
+`main` 禁止直接推送（协作者为只读权限，见「协作方式」）。每个改动开一条短生命周期分支，用完即删：
 
 | 前缀 | 用途 |
 |------|------|
@@ -66,18 +90,34 @@ PR 模板会自动带出这份清单。
 
 ## 评审与合并
 
-- 至少一位协作者 approve 后合并；单人开发时可自审，但 CI 必须绿。
+- 由维护者审查并合并；CI 必须绿。
 - 用 **squash merge**，保持 `main` 线性历史（仓库设置已禁用 merge 与 rebase 两种合并方式）。
 - 合并后源分支会自动删除。
 
-> **关于强制保护**：本仓库当前是 Free 套餐的私有仓库，GitHub 不允许启用分支保护或
-> ruleset（该功能要求 Pro 套餐，API 会返回 `403 Upgrade to GitHub Pro`）。也就是说
-> **`main` 在服务端没有强制保护，直接 `git push origin main` 是推得上去的**。
-> CI 会在 PR 上运行，但拦不住绕过 PR 的推送——所以上面这条流程靠的是约定，而不是
-> 服务端拦截。
+## 版本号与发布
+
+**版本号由维护者统一分配，协作者不自行打 tag 或建 Release。**
+
+- 合并进 `main` 只代表代码进入主线；是否发版、发哪个版本号，由维护者在合并后决定。
+- 发布方式：注解标签 `vN`（`git tag -a`）+ GitHub Release，说明该版内容与已知问题。
+- 当前版本线：
+
+  | 标签 | 提交 | 内容 |
+  |------|------|------|
+  | `v1` | `42118fa` | 命令行管线 + PyQt5 交互复核界面 |
+  | `v2` | `37b0356` | 整合版：先验增强引擎 + 统一启动器 |
+
+- 回退到某个版本：`git checkout v1`。
+
+> **关于强制保护**：本仓库是 Free 套餐的私有仓库，GitHub 不允许启用分支保护或
+> ruleset（该功能要求 Pro 套餐，API 返回 `403 Upgrade to GitHub Pro`）。
 >
-> 若日后升级到 Pro，应当开启 `main` 的分支保护（要求 CI 三个检查通过 + 禁止强推），
-> 届时本条说明即可删除。
+> 因此本项目用**权限**代替服务端保护：协作者账号为 **read（只读）**，从机制上无法
+> 直推 `main`，只能走 fork + PR；维护者账号仍可直接推送（用于文档、发版等）。
+> CI 在 PR 与 `main` 上都会运行。
+>
+> 若日后升级到 Pro，应改为开启 `main` 的分支保护（要求 CI 检查通过 + 禁止强推），
+> 届时本条说明相应调整。
 
 ## 不要提交的东西
 
