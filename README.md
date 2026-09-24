@@ -1,5 +1,7 @@
 # SDL 纳米孔数据自动化分析管线
 
+**仓库地址**：<https://github.com/1moltry/Self-Driving-Huang-Lab>
+
 全自动处理纳米孔传感 .abf 数据：事件分割、特征提取、异常检测、分析可视化——替代原有「Clampfit 手动找事件 → MATLAB 提特征 → Origin 作图」的人工流程。
 
 ## 统一入口（`启动纳米孔分析.bat`）

@@ -9,6 +9,11 @@ description = "Merged nanopore ABF analysis and interactive review suite"
 requires-python = ">=3.11"
 dependencies = ["numpy>=2.0", "pandas>=2.0", "scipy>=1.12", "matplotlib>=3.8", "openpyxl>=3.1", "xlrd>=2.0"]
 
+[project.urls]
+Homepage = "https://github.com/1moltry/Self-Driving-Huang-Lab"
+Repository = "https://github.com/1moltry/Self-Driving-Huang-Lab"
+Issues = "https://github.com/1moltry/Self-Driving-Huang-Lab/issues"
+
 [project.optional-dependencies]
 review = ["pyabf>=2.3", "PyQt5>=5.15", "pyqtgraph>=0.13"]
 dev = ["pytest>=8.0"]
