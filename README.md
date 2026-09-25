@@ -1,6 +1,6 @@
 # SDL 纳米孔数据自动化分析管线
 
-**仓库地址**：<https://github.com/1moltry/Self-Driving-Huang-Lab>
+**仓库地址**：<https://github.com/1moltry/SDL-Auto-Data-process>
 
 全自动处理纳米孔传感 .abf 数据：事件分割、特征提取、异常检测、分析可视化——替代原有「Clampfit 手动找事件 → MATLAB 提特征 → Origin 作图」的人工流程。
 
@@ -66,7 +66,7 @@ python -m nanopore run <目录> --save-config params.json
 
 交互式桌面程序（PyQt5 + pyqtgraph），波形 + 事件表 + 异常/参数面板布局：
 
-**双击启动（推荐）**：双击桌面快捷方式 `SDL纳米孔分析`（或项目根目录的 `启动界面.bat`）即可打开 GUI，无需命令行。启动器用 Anaconda 的 `pythonw` 无控制台窗口运行；若双击后无反应，改双击 `启动界面-调试.bat`，它会保留控制台显示报错。
+**双击启动（推荐）**：双击桌面快捷方式 `SDL纳米孔分析`（或项目根目录的 `启动界面.bat`）即可打开 GUI，无需命令行。启动器要求已 `pip install -e .`，用 PATH 上的 `pythonw` 无控制台窗口运行；若双击后无反应，改双击 `启动界面-调试.bat`，它会保留控制台显示报错。
 
 也可以用命令行启动：
 
@@ -199,7 +199,7 @@ nanopore_launcher.pyw  统一入口 GUI 启动器（依赖 nanopore_prior，当�
 tests/             合成信号回归测试
 .github/           CI 工作流 + PR / issue 模板
 pyproject.toml     依赖声明、打包与 console 入口（`nanopore`）
-CONTRIBUTING.md    协作流程：分支命名 / 提交规范 / PR 检查清单
+CONTRIBUTING.md    贡献指南：环境 / 分支 / 提交规范 / PR 检查清单 / 署名
 data/README.md     数据获取方式与目录约定
 启动界面.bat        双击启动 GUI（桌面快捷方式 `SDL纳米孔分析` 指向它）
 启动界面-调试.bat   同款启动但保留控制台，用于排查启动报错

@@ -7,7 +7,7 @@
 从实验室共享盘 / Lab 服务器拷贝到仓库根目录下的 `abf数据案例/`：
 
 ```
-Self-Driving-Huang-Lab/
+SDL-Auto-Data-process/
 └── abf数据案例/                ← 本地目录，已被 .gitignore 忽略
     ├── abf数据案例/             6 个常规样例
     └── abf数据案例2/

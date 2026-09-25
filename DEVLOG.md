@@ -24,6 +24,7 @@
 **G1.10 MATLAB 训练导出 + 散点图极值修复 完成**：批处理产出合并表 `dataset_all.csv`（MATLAB 合法列名）；散点图 toff 转对数横轴、ΔI 改线性轴并按正负分色（symlog 实测有害，已弃）。见下方 [2026-09-13]。
 **v3 规划已就绪**：全项目审查（正确性 / 健壮性 / 冗余 / 算法能力）与 MATLAB 接线硬阻塞已归纳为下方《v3 规划》章节，作为下一大版本的输入。见下方 [2026-09-13]。
 **工程化 完成**：纳入 git 版本控制并搭建 GitHub 协作流程（CI / 模板 / Dependabot / 打包）。见下方 [2026-09-20]。
+**文档与协作 完成**：仓库更名 `SDL-Auto-Data-process`；`CONTRIBUTING.md` 回归贡献者指南并载明共同开发者与资助方，协作机制移入本文件；`LICENSE` / `pyproject.toml` 署名同步。见下方 [2026-09-25]。
 
 ---
 
@@ -92,6 +93,31 @@
 **C1**（特征正确性）→ **C2/C3**（GUI 真 bug）→ **R1**（内存）→ R3/R4/R5 → 冗余清理 → **A2/A3**（算法能力）。
 
 ---
+
+## [2026-09-25] 仓库更名 SDL-Auto-Data-process + CONTRIBUTING 改定位 + 隐私核查
+
+**变更**
+- 仓库更名 `Self-Driving-Huang-Lab` → **`SDL-Auto-Data-process`**（https://github.com/1moltry/SDL-Auto-Data-process）；仓库内 README / CONTRIBUTING / data/README / pyproject / CLAUDE.md 的地址与目录名一并替换。
+- **署名落地**：`CONTRIBUTING.md` 顶部与 `LICENSE` 版权行写明本仓库由 **Yize Liu（1moltry）与 Junjie Wen 共同开发、Huang Lab 资助**；`pyproject.toml` 新增 `authors`。
+- **`CONTRIBUTING.md` 改回贡献者指南**：只留贡献者需要的技术约定（环境准备 / 分支命名 / Conventional Commits / 提交前 `pytest` / PR 检查清单 / 不入库清单）；原写在其中的协作机制叙述归入本条目（见下）。
+- 修正过时描述：`启动界面.bat` 早已改为走 PATH 的 `pythonw`（提交 `e9b72cf`），README 仍写「Anaconda 的 pythonw」，一并改正。
+
+**协作机制（原 CONTRIBUTING「协作方式 / 评审与合并 / 版本号与发布」并入此处）**
+- **提交路径**：fork → 在 fork 上建分支提交 → 向 `main` 开 PR（模板自带检查清单）→ 维护者审查，需改则继续 push 到同一分支 → squash 合并后删源分支；分支落后用 `git fetch upstream && git rebase upstream/main`。不要用网页 "Add files via upload"，会绕过分支与 CI。
+- **为什么不靠服务端保护**：Free 套餐无法启用 `main` 分支保护 / ruleset（`403 Upgrade to GitHub Pro`），也**无法把协作者降为只读**（协作者权限接口对 `read`/`triage` 返回 `422`）。故用**权限**代替：仓库公开 + 贡献者不给写权限，从机制上禁止直推 `main`；维护者账号仍可直推（文档、发版）。升级 Pro 后应改为开启分支保护（要求 CI 通过 + 禁止强推）。
+- **版本号由维护者分配**，贡献者不自行打 tag / 建 Release。版本线：`v1` → `42118fa`（命令行管线 + PyQt5 GUI）、`v2` → `37b0356`（整合版：先验增强引擎 + 统一启动器）；回退 `git checkout v1`。
+
+**隐私核查（全量 `git ls-files` 69 文件 + 全量 `git log`）**
+- **追踪文件无泄露**：无 `.abf` / `pCLAMP11.2/` / `_tmp/` / `*.docx` / `*.m`，无同事姓名串，`.claude/settings.local.json` 未追踪。
+- **提交历史含个人邮箱**：`37b0356` 作者 `REFLECTED-MOON`（163 邮箱，local part 含 11 位数字）、`1bdee85` 为个人 outlook 地址。**决定不处理**——不改写历史、不强推。本机 `user.email` 已是 GitHub noreply 地址，后续提交不暴露个人邮箱。
+- 泛化追踪文件里的本机绝对路径（DEVLOG 中的解释器路径与项目工作目录），改为通用表述。
+
+**测试**
+- 纯文档 / 元数据改动，未动 `nanopore/` 算法代码；`pytest` 全绿作保险，`pyproject.toml` 新增 `authors` 不影响 `pip install -e ".[dev]"`。
+
+**下一步**
+- 未处理项：`nanopore_prior` 悬空引用仍在（见 [2026-09-24]）。
+- 恢复 v3 规划主线：**C1**（skew/kurt 有偏校正）→ C2/C3（GUI 真 bug）→ R1（内存）。
 
 ## [2026-09-24] 版本标记与协作流程 — v1/v2 标签 + Release + 仓库地址 + PR 流程
 
@@ -166,9 +192,9 @@
 ## [2026-09-13] G1.9 — 桌面快捷入口（双击启动 GUI）
 
 **变更**
-- 新增 `启动界面.bat`：切至脚本所在目录后用 Anaconda 的 `pythonw`（无控制台窗口）启动 `python -m nanopore gui`。**写死 `D:\anaconda3\pythonw.exe`**——本机另有 Python 3.13/3.9/3.8 等多套解释器且 PyQt5 只装在 Anaconda，裸 `python` 可能解析到错误解释器；该路径缺失时回退 PATH 的 `pythonw`，再缺失则报错并 pause。
+- 新增 `启动界面.bat`：切至脚本所在目录后用 `pythonw`（无控制台窗口）启动 `python -m nanopore gui`。最初写死本机某个 Anaconda 解释器的绝对路径——本机装有多套 Python 且 PyQt5 只在其中一套，裸 `python` 可能解析到错误解释器；2026-09-20 改为走 PATH 上的 `pythonw`（提交 `e9b72cf`），要求已 `pip install -e .`。
 - 新增 `启动界面-调试.bat`：同款启动但保留控制台，用于排查静默失败（主启动器无控制台输出，这是它的唯一代价）。
-- 桌面快捷方式 `SDL纳米孔分析.lnk` → `启动界面.bat`，工作目录 `D:\desktop\SDL`，图标取 pythonw。
+- 桌面快捷方式 `SDL纳米孔分析.lnk` → `启动界面.bat`，工作目录取项目根目录，图标取 pythonw。
 
 **测试**
 - 实测双击链路 lnk → bat → pythonw：`Win32_Process` 确认 `pythonw.exe -m nanopore gui` 正常驻留后手动结束。
