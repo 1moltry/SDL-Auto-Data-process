@@ -97,7 +97,7 @@
 ## [2026-09-25] 仓库更名 SDL-Auto-Data-process + CONTRIBUTING 改定位 + 隐私核查
 
 **变更**
-- 仓库更名 `Self-Driving-Huang-Lab` → **`SDL-Auto-Data-process`**（https://github.com/1moltry/SDL-Auto-Data-process）；仓库内 README / CONTRIBUTING / data/README / pyproject / CLAUDE.md 的地址与目录名一并替换。
+- 仓库更名 `Self-Driving-Huang-Lab` → **`SDL-Auto-Data-process`**（https://github.com/1moltry/SDL-Auto-Data-process）；仓库内 README / CONTRIBUTING / data/README / pyproject 的地址与目录名一并替换（另有本地 `CLAUDE.md` 同步，该文件不入库）。
 - **署名落地**：`CONTRIBUTING.md` 顶部与 `LICENSE` 版权行写明本仓库由 **Yize Liu（1moltry）与 Junjie Wen 共同开发、Huang Lab 资助**；`pyproject.toml` 新增 `authors`。
 - **`CONTRIBUTING.md` 改回贡献者指南**：只留贡献者需要的技术约定（环境准备 / 分支命名 / Conventional Commits / 提交前 `pytest` / PR 检查清单 / 不入库清单）；原写在其中的协作机制叙述归入本条目（见下）。
 - 修正过时描述：`启动界面.bat` 早已改为走 PATH 的 `pythonw`（提交 `e9b72cf`），README 仍写「Anaconda 的 pythonw」，一并改正。
