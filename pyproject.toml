@@ -27,8 +27,8 @@ nanopore-prior = "nanopore_prior.cli:main"
 nanopore-review = "nanopore.cli:main"
 
 [tool.setuptools]
-packages = ["nanopore_prior", "nanopore", "nanopore.gui"]
+packages = ["nanopore", "nanopore.gui"]
 py-modules = ["merged_runner"]
 
 [tool.pytest.ini_options]
-testpaths = ["tests", "tests_prior", "tests_merged"]
+testpaths = ["tests"]

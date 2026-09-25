@@ -101,6 +101,7 @@
 - **署名落地**：`CONTRIBUTING.md` 顶部与 `LICENSE` 版权行写明本仓库由 **Yize Liu（1moltry）与 Junjie Wen 共同开发、Huang Lab 资助**；`pyproject.toml` 新增 `authors`。
 - **`CONTRIBUTING.md` 改回贡献者指南**：只留贡献者需要的技术约定（环境准备 / 分支命名 / Conventional Commits / 提交前 `pytest` / PR 检查清单 / 不入库清单）；原写在其中的协作机制叙述归入本条目（见下）。
 - 修正过时描述：`启动界面.bat` 早已改为走 PATH 的 `pythonw`（提交 `e9b72cf`），README 仍写「Anaconda 的 pythonw」，一并改正。
+- **修复 CI 长红**：`pyproject.toml` 的 `packages` 引用了仓库里不存在的 `nanopore_prior`，`testpaths` 引用不存在的 `tests_prior`/`tests_merged`。CI 是干净 checkout，`pip install -e ".[dev]"` 直接报 `error: package directory 'nanopore_prior' does not exist`，**三个 job 自 2026-09-24 起全部失败**。本地看不出来是因为有早先装好的 `nanopore_sdl.egg-info` 残留，且 `pytest tests/` 只点名 `tests/`、靠 cwd 就能 import。去掉这两处悬空引用；同事的 `merged_runner.py` / 启动器原样不动（它们 import 不到 `nanopore_prior` 是另一回事，已在 README 标注该入口暂不可用）。
 
 **协作机制（原 CONTRIBUTING「协作方式 / 评审与合并 / 版本号与发布」并入此处）**
 - **提交路径**：fork → 在 fork 上建分支提交 → 向 `main` 开 PR（模板自带检查清单）→ 维护者审查，需改则继续 push 到同一分支 → squash 合并后删源分支；分支落后用 `git fetch upstream && git rebase upstream/main`。不要用网页 "Add files via upload"，会绕过分支与 CI。
@@ -113,10 +114,11 @@
 - 泛化追踪文件里的本机绝对路径（DEVLOG 中的解释器路径与项目工作目录），改为通用表述。
 
 **测试**
-- 纯文档 / 元数据改动，未动 `nanopore/` 算法代码；`pytest` 全绿作保险，`pyproject.toml` 新增 `authors` 不影响 `pip install -e ".[dev]"`。
+- 纯文档 / 元数据改动，未动 `nanopore/` 算法代码；`pytest` 126 passed。
+- CI 修复的验证方式：用 `pip wheel . --no-deps --no-build-isolation` 复现出 `nanopore_prior` 缺失导致的 metadata 生成失败，改完后同一命令构建成功（不必等 CI 排队）。
 
 **下一步**
-- 未处理项：`nanopore_prior` 悬空引用仍在（见 [2026-09-24]）。
+- 未处理项：`nanopore_prior` 包仍未入库，统一入口（`merged_runner.py` / `nanopore_launcher.pyw` / `启动纳米孔分析.bat`）不可用；本次只修了打断 CI 的那两处打包悬空引用，`nanopore-prior` console 入口仍指向不存在的模块（未调用则无碍）。
 - 恢复 v3 规划主线：**C1**（skew/kurt 有偏校正）→ C2/C3（GUI 真 bug）→ R1（内存）。
 
 ## [2026-09-24] 版本标记与协作流程 — v1/v2 标签 + Release + 仓库地址 + PR 流程
